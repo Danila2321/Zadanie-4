@@ -1,0 +1,40 @@
+nums = list(map(int, input().split()))[:-1]
+
+class Node:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+
+root = None
+for num in nums:
+    if not root:
+        root = Node(num)
+        continue
+    curr = root
+    while curr:
+        if num < curr.val:
+            if not curr.left:
+                curr.left = Node(num)
+                break
+            curr = curr.left
+        else:
+            if not curr.right:
+                curr.right = Node(num)
+                break
+            curr = curr.right
+            
+res = []
+stack = [root]
+while stack:
+    node = stack.pop()
+    if (node.left and not node.right) or (not node.left and node.right):
+        res.append(node.val)
+    
+    if node.left:
+        stack.append(node.left)
+    if node.right:
+        stack.append(node.right)
+        
+print(f"Дерево: '{nums}'")
+print(*sorted(res))
