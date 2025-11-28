@@ -1,0 +1,38 @@
+tree = list(map(int, input().split()))[:-1]
+
+class Node:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+
+root = None
+for num in tree:
+    if not root:
+        root = Node(num)
+    else:
+        curr = root
+        while curr:
+            if num < curr.val:
+                if not curr.left:
+                    curr.left = Node(num)
+                    break
+                curr = curr.left
+            else:
+                if not curr.right:
+                    curr.right = Node(num)
+                    break
+                curr = curr.right
+
+def height(node):
+    if not node:
+        return 0
+    return 1 + max(height(node.left), height(node.right))
+
+def balanced(node):
+    if not node:
+        return True
+    return abs(height(node.left) - height(node.right)) <= 1 and \
+           balanced(node.left) and balanced(node.right)
+print(f"Дерево: '{tree}'")
+print("YES" if balanced(root) else "NO")
